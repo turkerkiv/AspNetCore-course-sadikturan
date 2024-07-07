@@ -1,0 +1,41 @@
+@model List<UserInfo>
+
+    <main class="text-center">
+        <h1 class="h4">Meeting participant list</h1>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td>Name</td>
+                    <td>Attendance status</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                int i = 0;
+                }
+
+                @foreach(var user in @Model)
+                {
+                string status = user.AttendanceStatus == true ? "✔️" : "❌";
+                string className = user.AttendanceStatus == true ? "table-success" : "table-danger";
+
+                i = user.AttendanceStatus == true ? i+1 : i;
+
+                <tr class="@className">
+                    <td>@user.Name</td>
+                    <td>@status</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" asp-controller="Meeting" asp-action="Details" asp-route-id="@user.Id">Details</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="card">
+            <div class="card-body">
+                <p>Participants: @i</p>
+            </div>
+        </div>
+    </main>

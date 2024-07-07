@@ -1,0 +1,20 @@
+@model Course
+
+<div class="row">
+    <div class="col-md-2">
+        <img src="~/img/@Model.Image" alt="Course image" class="img-fluid rounded-start">
+    </div>
+    <div class="col-md-10">
+        <a asp-controller="Course" asp-action="Details" asp-route-id="@Model.Id">
+            <h5 class="card-title">@Model.Title</h5>
+        </a>
+        <p class="card-text">@Model.Description</p>
+        <div>
+            @if(@Model.Tags ==null) return;
+            @foreach(var tag in @Model.Tags)
+            {
+            <span class="badge bg-danger">@tag</span>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+@model IEnumerable<CourseRegistiration>
+
+    <a class="btn btn-primary" asp-action="Create">Register student to a course</a>
+    <h1>Students</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(c => c.Id)</th>
+                <th>@Html.DisplayNameFor(c => c.Student.Name)</th>
+                <th>@Html.DisplayNameFor(c => c.Course.Title)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Student.NameSurname</td>
+                    <td>@item.Course.Title</td>
+                    <td>
+                        <a asp-action="" class="btn btn-primary"></a>
+                        <a asp-action="" class="btn btn-primary"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

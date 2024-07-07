@@ -1,0 +1,11 @@
+@model Course
+
+<p>
+    <b>@Model.Title</b> - Sure to Delete?
+</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.Id">
+    <button type="submit" class="btn btn-danger">Yes</button>
+    <a asp-action="Index" class="btn btn-primary">No</a>
+</form>

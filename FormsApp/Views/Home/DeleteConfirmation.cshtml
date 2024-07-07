@@ -1,0 +1,8 @@
+@model Product
+
+<form asp-controller="Home" asp-action="Delete" method="post">
+    <p>Are you sure that you want to delete product named @Model.Name ?</p>
+    <input type="hidden" asp-for="Id">
+    <button type="submit" class="btn btn-primary">Yes</button>
+    <a class="btn btn-danger" asp-controller="Home" asp-action="Index">No</a>
+</form>

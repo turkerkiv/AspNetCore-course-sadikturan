@@ -1,0 +1,20 @@
+@model MeetingInfo
+
+@{
+Layout = "_Layout2";
+}
+
+<main class=" text-center">
+    <h1 class="h4">@ViewBag.Greeting, Welcome @ViewBag.Name</h1>
+    <p>Please enter your meeting attendance status.</p>
+
+    <div class="card my-2">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">@Model.Location</li>
+            <li class="list-group-item">At @Model.Date.ToString("dd/MM/yyyy HH:mm:ss")</li>
+            <li class="list-group-item">@Model.NumberOfPeople participants</li>
+        </ul>
+    </div>
+    
+    <a class="btn btn-sm btn-outline-primary" asp-controller="Meeting" asp-action="application">Join</a>
+</main>

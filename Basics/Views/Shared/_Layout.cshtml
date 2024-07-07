@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    @RenderSection("Styles", false)
+</head>
+
+<body>
+    <header>
+        @await Html.PartialAsync("_Navbar")
+        @RenderSection("Header", false)
+    </header>
+    <main class="container mt-3">
+        @RenderBody()
+    </main>
+
+    @RenderSection("Scripts", false);
+</body>
+
+</html>

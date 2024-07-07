@@ -1,0 +1,18 @@
+@model CourseRegistiration
+
+<h1>Register student to a course</h1>
+<hr>
+<form asp-controller="CourseRegistiration" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="StudentId" class="form-label">Student:</label>
+        <select asp-items="ViewBag.Students" name="StudentId"></select>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CourseId" class="form-label">Course:</label>
+        <select asp-items="ViewBag.Courses" name="CourseId">
+            <option value="">Select</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Apply</button>
+</form>

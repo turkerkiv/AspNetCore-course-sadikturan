@@ -1,0 +1,21 @@
+@model UserInfo
+
+@{
+    ViewBag.Title = "Post Application form";
+}
+
+<main class="text-center">
+    <h1 class="h4">Meeting summary</h1>
+
+    @if(@Model.AttendanceStatus == true)
+    {
+        <p>@Model.Name, Number of people who are going to participate to the meeting with you, @{var nCount = Repository.Users.Where(u => u.AttendanceStatus == true).Count() - 1;} @nCount</p>
+        <a class="btn btn-sm btn-outline-primary" asp-controller="Meeting" asp-action="List">List the participants</a>
+    }
+    else
+    {
+        <p>@Model.Name, we are sorry that you will not attend to the meeting.</p>
+        <a class="btn btn-sm btn-outline-primary" asp-controller="Meeting" asp-action="Application">Application form</a>
+    }
+
+</main>

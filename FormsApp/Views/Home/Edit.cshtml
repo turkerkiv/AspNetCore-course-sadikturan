@@ -1,0 +1,37 @@
+@model Product
+
+<form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="Id">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control">
+        <span style="color:red" asp-validation-for="Name"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" min="1" class="form-control">
+        <span style="color:red" asp-validation-for="Price"></span>
+    </div>
+    <div>
+        <img src="~/img/@Model.ImageName" alt=""  style="max-width:200px">
+        <input type="hidden" asp-for="ImageName">
+    </div>
+    <div class="input-group mb-3">
+        <input type="file" name="ImageFile" id="ImageFile" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        @{var items = new SelectList(Repository.Categories, "Id", "Name"); }
+        <select asp-for="CategoryId" class="form-select" asp-items="@items">
+            <option value="">Please choose</option>
+        </select>
+        <span style="color:red" asp-validation-for="CategoryId"></span>
+    </div>
+    <div class="mb-3 form-check">
+        <input asp-for="IsActive" class="form-check-input">
+        <label asp-for="IsActive" class="form-check-label">Is Active</label>
+        <span style="color:red" asp-validation-for="IsActive"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

@@ -1,0 +1,26 @@
+@model UserInfo
+
+<h1 class="h4 text-center">Meeting application form</h1>
+<form method="post" action="">
+    <div asp-validation-summary = "All"></div>
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label">Name</label>
+        <input asp-for="Name" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label">Phone</label>
+        <input asp-for="Phone" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label asp-for="AttendanceStatus" class="form-label">Will you attend?</label>
+        <select asp-for="AttendanceStatus" class="form-select">
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+        </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Send</button>
+</form>

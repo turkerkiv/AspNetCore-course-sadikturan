@@ -1,0 +1,63 @@
+﻿@model ProductViewModel
+
+<div class="card card-body my-3">
+    <form asp-controller="Home" asp-action="Index" method="get">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-11">
+                    @{var items = new SelectList(@Model.Categories, "Id", "Name", @Model.SelectedCategory);}
+                    <select name="category" class="form-select" asp-items="@items">
+                        <option value="0">All</option>
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<form asp-action="EditProducts" method="post">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th style="width: 100px">@Html.DisplayNameFor(m => m.Products[0].Id)</th>
+                <th style="width: 100px">@Html.DisplayNameFor(m => m.Products[0].ImageName)</th>
+                <th>@Html.DisplayNameFor(m => m.Products[0].Name)</th>
+                <th style="width: 100px">@Html.DisplayNameFor(m => m.Products[0].Price)</th>
+                <th style="width:100px">@Html.DisplayNameFor(m =>m.Products[0].IsActive)</th>
+                <th style="width: 10%;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < @Model.Products.Count; i++) { <tr>
+                <td>@Model.Products[i].Id
+                    <input type="hidden" asp-for="@Model.Products[i].Id">
+                </td>
+                <td><img src="~/img/@Model.Products[i].ImageName" alt="" class="img-fluid">
+                    <input type="hidden" asp-for="@Model.Products[i].ImageName">
+                </td>
+                <td>@Model.Products[i].Name
+                    <input type="hidden" asp-for="@Model.Products[i].Name">
+                </td>
+                <td>@Model.Products[i].Price
+                    <input type="hidden" asp-for="@Model.Products[i].Price">
+                </td>
+                <td>
+                    <input type="checkbox" asp-for="@Model.Products[i].IsActive">
+                </td>
+                <td>
+                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Products[i].Id"
+                        class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Products[i].Id"
+                        class="btn btn-sm btn-danger">Delete</a>
+                </td>
+                <input type="hidden" asp-for="@Model.Products[i].CategoryId">
+                </tr>
+                }
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-primary">Save all</button>
+</form>

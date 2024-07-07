@@ -1,0 +1,108 @@
+@model Post
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="bg-white p-4">
+            <h1 class="h4 mb-4">@Model.Title</h1>
+            <div class="tags">
+                @foreach(var tag in Model.Tags)
+                {
+                <a href="/posts/tags/@tag.Url"
+                    class="badge bg-danger bg-opacity-10 text-danger mb-2 fw-bold">@tag.Text</a>
+                }
+            </div>
+            <img src="~/img/@Model.Image" class="img-fluid rounded" alt="">
+            <div class="">@Model.Content</div>
+        </div>
+    </div>
+    <div class="bg-white mt-3">
+        <div class="card border-0">
+            <div class="card-header pb-0">
+                <h4>@Model.Comments.Count() comments</h4>
+            </div>
+            <div class="card-body">
+                <div id="comments">
+                    @foreach(var cmm in Model.Comments)
+                    {
+                    <div class="my-4 d-flex">
+                        <img src="/img/@cmm.User.Image" alt="" class="avatar rounded-circle float-start me-3">
+                        <div class="d-flex">
+                            <div class="mb-2 me-3">
+                                <h6>@cmm.User.Username</h6>
+                                <span>@cmm.PublishedOn.ToString("d")</span>
+                            </div>
+                            <p>@cmm.Text</p>
+                        </div>
+                    </div>
+                    }
+                </div>
+                <hr class="my-4">
+                <h4 class="mb-3">Add Comment</h4>
+                <div class="">
+                    <form action="/posts/AddComment" method="post">
+                        <input type="hidden" id="PostId" name="PostId" value="@Model.Id">
+                        <div class="mb-3">
+                            <textarea type="text" name="Text" class="form-control" id="Text" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            @if(User.Identity.IsAuthenticated)
+                            {
+                                <button id="btnYorumKayit" type="submit" class="btn btn-primary">Save</button>
+                            }else
+                            {
+                                <a href="/users/login" class="btn btn-primary">Login to comment</a>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <vc:tags-menu></vc:tags-menu>
+        <vc:recent-posts-menu></vc:recent-posts-menu>
+    </div>
+</div>
+
+@section Scripts{
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#btnYorumKayit").click(function () {
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '@Url.Action("AddComment")',
+                    dataType: 'json',
+                    data: {
+                        PostId: $('#PostId').val(),
+                        Username: $('#Username').val(),
+                        Text: $('#Text').val(),
+                    },
+                    success: function (comment) {
+                        console.log('testtt');
+                        $("#comments").append(`
+                         <div class="my-4 d-flex">
+                        <img src="/img/${comment.image}" alt="" class="avatar rounded-circle float-start me-3">
+                        <div class="d-flex">
+                            <div class="mb-2 me-3">
+                                <h6>${comment.username}</h6>
+                                <span>${comment.publishedOn}</span>
+                            </div>
+                            <p>${comment.text}</p>
+                        </div>
+                    </div>
+                    `);
+
+                        $("#Username").val('');
+                        $("#Text").val('');
+                    }
+                });
+            return false;
+        });
+    });
+</script>
+}

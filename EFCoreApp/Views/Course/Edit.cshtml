@@ -1,0 +1,25 @@
+@model Course
+
+<h1>Edit Course</h1>
+<hr>
+<div class="row">
+    <div class="col-8">
+        <form asp-action="Edit" method="post">
+            <div class="mb-3">
+                <label asp-for="Title" class="form-label">@Html.DisplayNameFor(c=>c.Title):</label>
+                <input asp-for="Title" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Apply</button>
+        </form>
+    </div>
+    <div class="col-4">
+        <h4>Students</h4>
+        <hr>
+        <ul>
+            @foreach(var item in @Model.CourseRegistirations)
+            {
+                <li>@item.Student.NameSurname</li>
+            }
+        </ul>
+    </div>
+</div>
