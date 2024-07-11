@@ -1,4 +1,4 @@
-@model IEnumerable<IdentityUser>
+@model IEnumerable<AppUser>
 
     <a asp-action="Create" class="btn btn-primary">Create User</a>
 
@@ -15,15 +15,22 @@
         <tbody>
             @foreach(var user in Model)
             {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.Email</td>
-                    <td>
-                        <a href="" class="btn btn-primary btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm ">Delete</a>
-                    </td>
-                </tr>
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.FullName</td>
+                <td>@user.Email</td>
+                <td>
+                    @if(User.IsInRole("admin"))
+                    {
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <form asp-action="Delete" method="post" onsubmit="return confirm('Are you sure?')"
+                        style="display:inline-block">
+                        <input type="hidden" name="id" value="@user.Id">
+                        <button type="submit" class="btn btn-danger btn-sm ">Delete</button>
+                    </form>
+                    }   
+                </td>
+            </tr>
             }
         </tbody>
     </table>

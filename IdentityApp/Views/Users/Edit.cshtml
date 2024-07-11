@@ -1,0 +1,38 @@
+@model EditViewModel
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" name="Id" value="@Model.Id">
+    <div class="mb-">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control">
+    </div>
+    <div class="mb-">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control">
+    </div>
+    <div class="mb-">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control">
+    </div>
+    <div class="mb-">
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <input asp-for="ConfirmPassword" class="form-control">
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            Roles
+        </div>
+        <div class="card-body">
+            @foreach(var role in ViewBag.Roles)
+            {
+                <div class="form-check">
+                    <input @(Model.SelectedRoles.Any(r => r == role) ? "checked" : "") type="checkbox" class="form-check-input" id="@role" name="SelectedRoles" value="@role">
+                    <label for="@role" class="form-check-label">@role</label>
+                </div>
+            }
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

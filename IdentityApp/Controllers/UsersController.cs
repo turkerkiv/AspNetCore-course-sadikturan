@@ -1,16 +1,22 @@
+using IdentityApp.Models;
 using IdentityApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace IdentityApp.Controllers;
 
+[Authorize]
 public class UsersController : Controller
 {
-    readonly UserManager<IdentityUser> _userManager;
+    readonly UserManager<AppUser> _userManager;
+    readonly RoleManager<AppRole> _roleManager;
 
-    public UsersController(UserManager<IdentityUser> userManager)
+    public UsersController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
     public IActionResult Index()
@@ -18,39 +24,76 @@ public class UsersController : Controller
         return View(_userManager.Users);
     }
 
-    public IActionResult Create()
+    public async Task<IActionResult> Edit(string id)
     {
-        return View();
+        if (id == null) return NotFound();
+
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user != null)
+        {
+            ViewBag.Roles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+
+            return View(new EditViewModel
+            {
+                Id = user.Id,
+                FullName = user.FullName,
+                Email = user.Email,
+                SelectedRoles = await _userManager.GetRolesAsync(user),
+            });
+        }
+        return NotFound();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateViewModel model)
+    public async Task<IActionResult> Edit(string id, EditViewModel model)
     {
+        if (id != model.Id) return NotFound();
+
         if (!ModelState.IsValid) return View(model);
 
-        if (_userManager.FindByNameAsync(model.UserName!) != null)
+        var user = await _userManager.FindByIdAsync(id);
+        if (user == null) return NotFound();
+
+        user.Email = model.Email;
+        user.FullName = model.FullName!;
+
+
+        var result = await _userManager.UpdateAsync(user);
+
+        if (result.Succeeded && !string.IsNullOrEmpty(model.Password))
         {
-            ModelState.AddModelError("", "Username is taken");
+            await _userManager.RemovePasswordAsync(user);
+            await _userManager.AddPasswordAsync(user, model.Password);
         }
 
-        var identityUser = new IdentityUser
-        {
-            UserName = model.UserName,
-            Email = model.Email,
-        };
-
-        IdentityResult result = await _userManager.CreateAsync(identityUser, model.Password!);
         if (result.Succeeded)
         {
+            await _userManager.RemoveFromRolesAsync(user, await _userManager.GetRolesAsync(user));
+            if (model.SelectedRoles != null)
+                await _userManager.AddToRolesAsync(user, model.SelectedRoles);
             return RedirectToAction("Index");
         }
         else
         {
-            foreach (IdentityError err in result.Errors)
+            foreach (var err in result.Errors)
             {
                 ModelState.AddModelError("", err.Description);
             }
+
             return View(model);
         }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Delete(string id)
+    {
+        if (id == null) return NotFound();
+
+        var user = await _userManager.FindByIdAsync(id);
+
+        if (user == null) return NotFound();
+        await _userManager.DeleteAsync(user);
+        return RedirectToAction("Index");
     }
 }

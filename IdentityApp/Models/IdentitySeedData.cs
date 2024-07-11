@@ -11,18 +11,19 @@ public static class IdentitySeedData
     public static async void IdentityTestUser(IApplicationBuilder app)
     {
         var context = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<IdentityContext>();
-        if (context.Database.GetAppliedMigrations().Any())
+        if (context.Database.GetPendingMigrations().Any())
         {
             context.Database.Migrate();
         }
 
-        var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+        var userManager = app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
         var user = await userManager.FindByNameAsync(adminUser);
         if (user == null)
         {
-            user = new IdentityUser
+            user = new AppUser
             {
+                FullName = "Turker kiv",
                 UserName = adminUser,
                 Email = "admin@gmail.com",
                 PhoneNumber = "111111111",
