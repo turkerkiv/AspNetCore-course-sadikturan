@@ -1,0 +1,24 @@
+@page
+@model IndexModel
+@{
+ViewData["Title"] = "Employees";
+}
+
+<h1>Employees</h1>
+
+<div class="row">
+    @foreach(var emp in Model.EmployeeList)
+    {
+        <div class="col-md-3 mb-2">
+            <div class="card">
+                <img src="~/img/@emp.Photo" alt="profile photo" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@emp.Name</h5>
+                    <p class="card-text">@emp.Department</p>
+                    <a asp-page="/Employees/Details" asp-route-id="@emp.Id" class="btn btn-primary">Details</a>
+                    <a asp-page="/Employees/Edit" asp-route-id="@emp.Id" class="btn btn-primary">Edit</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

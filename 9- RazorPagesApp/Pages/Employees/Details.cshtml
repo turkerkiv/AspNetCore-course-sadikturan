@@ -1,0 +1,18 @@
+@page
+@model DetailsModel
+
+<h1>Details page</h1>
+
+<div class="row">
+    <div class="col-md-3 mb-2">
+        <div class="card">
+            <img src="~/img/@Model.Employee.Photo" alt="profile photo" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Employee.Name</h5>
+                <p class="card-text">@Model.Employee.Department</p>
+                <p class="card-text">@Model.Employee.Email</p>
+                <a asp-page="/employees/index" class="btn btn-primary">Go back</a>
+            </div>
+        </div>
+    </div>
+</div>
