@@ -6,17 +6,19 @@ namespace StoreApp.Web.Components;
 
 public class CategoriesListViewComponent : ViewComponent
 {
-    private readonly IStoreRepository _storeRepo;
+    private readonly IProductRepository _proRepo;
+    private readonly ICategoryRepository _catRepo;
 
-    public CategoriesListViewComponent(IStoreRepository storeRepository)
+    public CategoriesListViewComponent(IProductRepository proRepo, ICategoryRepository catRepo)
     {
-        _storeRepo = storeRepository;
+        _proRepo = proRepo;
+        _catRepo = catRepo;
     }
 
     public IViewComponentResult Invoke()
     {
         ViewBag.SelectedCategory = RouteData.Values["categoryUrl"];
-        return View(_storeRepo
+        return View(_catRepo
                     .Categories
                     .Select(c => new CategoryViewModel
                     {

@@ -3,13 +3,12 @@ using StoreApp.Data.Abstract;
 
 namespace StoreApp.Data.Concrete;
 
-public class EfStoreRepository : IStoreRepository
+public class EFProductRepository : IProductRepository
 {
     StoreDbContext _dbContext;
     public IQueryable<Product> Products => _dbContext.Products;
-    public IQueryable<Category> Categories => _dbContext.Categories;
 
-    public EfStoreRepository(StoreDbContext storeDbContext)
+    public EFProductRepository(StoreDbContext storeDbContext)
     {
         _dbContext = storeDbContext;
     }

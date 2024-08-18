@@ -10,10 +10,10 @@ namespace StoreApp.Web.Controllers;
 public class HomeController : Controller
 {
     public int _pageSize = 1;
-    readonly IStoreRepository _storeRepo;
+    readonly IProductRepository _storeRepo;
     readonly IMapper _mapper;
 
-    public HomeController(IStoreRepository storeRepository, IMapper mapper)
+    public HomeController(IProductRepository storeRepository, IMapper mapper)
     {
         _storeRepo = storeRepository;
         _mapper = mapper;

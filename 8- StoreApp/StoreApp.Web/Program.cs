@@ -14,7 +14,8 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
     options.UseSqlite(builder.Configuration["ConnectionStrings:CustomConnection"], b => b.MigrationsAssembly("StoreApp.Web"));
 });
 
-builder.Services.AddScoped<IStoreRepository, EfStoreRepository>();
+builder.Services.AddScoped<IProductRepository, EFProductRepository>();
+builder.Services.AddScoped<ICategoryRepository, EFCategoryRepository>();
 
 var app = builder.Build();
 
